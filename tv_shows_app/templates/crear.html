@@ -11,6 +11,7 @@
     <br>
     <div   class="container -l shadow p-3 mb-5 " style="border:3px #9E9D89 solid;background-color: #F2DAC3;border-radius: 5px;"><h1>Add a New Show</h1>
         <div>
+            
             <form action="/shows/new/create" method="POST">
                 {% csrf_token %}
                 <div >
@@ -32,17 +33,26 @@
                     </div>
                 <br>
                 <div class="btn-group">
-                    <input type="submit" value="Submit" class="btn btn-success" >
+                    <input type="submit" value="Validar Formulario" class="btn btn-success" >
                     
                 </div>
                 <div class="btn-group">
-                    <a href="/shows" class="btn btn-primary active" ">Back</a>
+                    <a href="/shows" class="btn btn-primary active" ">Atras</a>
                 </div>
                 </div>
             </form>
         </div>
     
-        
+        {% if messages %}
+        <ul class="messages">    
+            {% for message in messages %}    
+                <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>
+                    <p style="color: red;">{{ message }}</p>
+                    
+                </li>    
+            {% endfor %}
+        </ul>
+        {% endif %}
     </div>
 </body>
 </html>
