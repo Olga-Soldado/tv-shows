@@ -7,14 +7,21 @@ import re
 
 # Create your models here.
 class ShowManager(models.Manager):
-    EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$')
-    
     def show_validator(self, postData):
+        
         errors = {}
+        if len(postData['title']) == 0:
+            errors["title"] = "No se ingresaron valores"
         if len(postData['title']) < 2:
             errors['title'] = "El titulo debe ser mayor a 2 caracteres"
+        if Show.objects.filter(title=postData['title']):
+            errors['title'] = "Este nombre ya existe"
+        if len(postData['tv_network']) == 0:
+            errors['tv_network'] = " tv_network no puede estar  vacio."
         if len(postData['tv_network']) < 3:
             errors['tv_network'] = " tv_network debe ser mayor a 2 caracteres"
+        if postData['release_date'] == '':
+            errors['release'] = "Se debe ingresar una fecha"
         if parse_date(postData['release_date']) > date.today():
             errors['release_date'] = "Ingrese una fecha menor a hoy"
         if len(postData['desc']) > 0 and len(postData['desc']) < 10:
@@ -24,9 +31,11 @@ class ShowManager(models.Manager):
     def edit_validators(self, postData):
         errors = {}
         if len(postData['updated_title']) == 0:
-            errors["updated_title"] = "No ingreso valores"
+            errors["updated_title"] = "No se ingresaron valores"
         elif len(postData['updated_title']) < 2:
             errors["updated_title"] = "Se ingresaron 2 caracteres,ingrese mas "
+        if len(postData['updated_tv_network']) == 0:
+            errors["updated_tv_network"] = "No ingreso valores"
         if len(postData["updated_tv_network"]) < 3:
             errors["updated_tv_network"] = "Se ingresaron 2 caracteres,ingrese mas tv_network  "
         if parse_date(postData["updated_release_date"]) > date.today():
