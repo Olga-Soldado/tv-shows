@@ -2,16 +2,50 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>All Shows</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <script src="https://kit.fontawesome.com/de8351153c.js" crossorigin="anonymous"></script>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/toastr.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/tipped.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/datatables.min.css' %}" />
 
+    <script src="{% static 'js/jquery-3.5.1.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'js/toastr.min.js' %}"></script>
+    <script src="{% static 'js/bootbox.min.js' %}"></script>
+    <script src="{% static 'js/moment-with-locales.min.js' %}"></script>
+    <script src="{% static 'js/tipped.min.js' %}"></script>
+    <script src="{% static 'js/pdfmake.min.js' %}"></script>
+    <script src="{% static 'js/vfs_fonts.js' %}"></script>
+    <script src="{% static 'js/datatables.min.js' %}"></script>
+
+    <title>All Show.</title>
+    <script>
+
+        $(document).ready(function () {
+
+            moment.locale("es");
+
+            toastr.options = {
+                "closeButton": true,
+                "progressBar": false,
+                "positionClass": "toast-top-center"
+            }
+        })       
+        </script>
 </head>
 <body>
+    {% if messages %}
+        {% for message in messages %}
+        <script> toastr["{{message.tags}}"]("{{message}}");</script>
+        {% endfor %}
+    {% endif %}
+     
     <br>
-    <div class="container shadow p-3 mb-5 bg-body rounded" style="border:3px #F2DAC3 solid;">
+    <div class="container shadow p-3 mb-5 bg-body rounded" style="border-radius: 5px;border:2px black solid ;background-color: #fdfd96;">
         <h1 class="text-center">All show.-</h1>
 
     <table class="table  table-striped">
@@ -36,26 +70,15 @@
                         <a href="/shows/{{show.id}}"class="btn btn-primary active" aria-current="page"><i class="far fa-eye"></i></a>
                         <a href="/shows/{{show.id}}/edit"class="btn btn-primary active"><i class="fas fa-edit"></i> </a>
                         <a href="/shows/{{show.id}}/destroy" class="btn btn-danger active"><i class="fas fa-trash"></i> </a>
+                        <a href="/api/create"class="btn btn-primary active" aria-current="page"><i class="far fa-eye"></i>crear ajax</a>
                       </div>
                </td>
             </tr>
         </tbody>
         {% endfor %}
     </table>
-    <div class="btn-group"><a href="/shows/new" class="btn btn-primary active" ><i class="fal fa-file-plus"></i> Add a <strong>New Show</strong></a></div>
-        
+    <div class="btn-group"><a href="/shows/new" class="btn btn-primary active" ><i class="fal fa-file-plus"></i> Add a <strong>New Show</strong></a></div> 
     
     </div>
-    
-    {% if messages %}
-    <ul class="messages">    
-        {% for message in messages %}    
-            <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>
-                <p>{{ message }}</p>
-                
-            </li>    
-        {% endfor %}
-    </ul>
-    {% endif %}
 </body>
 </html>

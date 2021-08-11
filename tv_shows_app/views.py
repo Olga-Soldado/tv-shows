@@ -1,4 +1,5 @@
   
+from django.http.response import JsonResponse
 from django.shortcuts import render,HttpResponse, redirect
 # Create your views here.
 from django.contrib import messages
@@ -16,8 +17,8 @@ def new(request):
 def create(request):
     errors = Show.objects.show_validator(request.POST)
     if len(errors) > 0:
-        for key, value in errors.items():
-            messages.error(request,value, extra_tags=key)
+        for value in errors.items():
+            messages.error(request,value)
         return redirect('/shows/new')
     else:
         Show.objects.create(
@@ -63,6 +64,8 @@ def destroy(request, id):
     Show.objects.get(id=id).delete()
     messages.success(request,'Se elimino correctamente. ')
     return redirect('/shows')
+
+
 
 def home(request):
     return redirect('/shows')

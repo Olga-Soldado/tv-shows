@@ -10,7 +10,7 @@ class ShowManager(models.Manager):
     def show_validator(self, postData):
         fecha= datetime.now()
         errors = {}
-        if len(postData['title']) == 0:
+        if len(postData['title']) == 0 :
             errors["title"] = "No se ingresaron valores"
         if len(postData['title']) < 2:
             errors['title'] = "El titulo debe ser mayor a 2 caracteres"

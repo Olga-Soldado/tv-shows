@@ -7,34 +7,62 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <script src="https://kit.fontawesome.com/de8351153c.js" crossorigin="anonymous"></script>
+    
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/toastr.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/tipped.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/datatables.min.css' %}" />
+
+    <script src="{% static 'js/jquery-3.5.1.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'js/toastr.min.js' %}"></script>
+    <script src="{% static 'js/bootbox.min.js' %}"></script>
+    <script src="{% static 'js/moment-with-locales.min.js' %}"></script>
+    <script src="{% static 'js/tipped.min.js' %}"></script>
+    <script src="{% static 'js/pdfmake.min.js' %}"></script>
+    <script src="{% static 'js/vfs_fonts.js' %}"></script>
+    <script src="{% static 'js/datatables.min.js' %}"></script>
+    <script>
+
+        $(document).ready(function () {
+
+            moment.locale("es");
+
+            toastr.options = {
+                "closeButton": true,
+                "progressBar": false,
+                "positionClass": "toast-top-center"
+            }
+        })       
+        </script>
 </head>
 <body>
     <br>
-    <div   class="container -l shadow p-3 mb-5 " style="border:3px #9E9D89 solid;background-color: #F2DAC3;border-radius: 5px;"><h1>Add a New Show</h1>
-        <div>
-            
-            <form action="/shows/new/create" method="POST">
+    <div   class="container shadow p-3 mb-5 " style="border-radius: 5px;border:2px black solid ;background-color: #fdfd96;"><h1 class="text-center"><strong>Add a New Show</strong></h1>
+            <div class="mb-3 row">
+            <form action="/shows/new/create" method="POST">   
                 {% csrf_token %}
-                <div >
-                    <div class="col">
-                        <label for="title"><strong>Title:</strong></label>
-                        <input type="text" id="title" name="title" placeholder="Your title..">
-                    </div><br>
-                    <div class="col">
-                        <label for="tv_network"><strong>Network</strong></label>
-                        <input type="text" id="tv_network" name="tv_network" placeholder="Your Network..">
-                    </div><br>
-                    <div class="col">
-                        <label for="release_date"><strong>Release Date</strong></label>
-                        <input type="date" id="release_date" name="release_date" placeholder="Your release date..">
-                    </div><br>
-                    <div class="col">
-                        <label for="desc"><strong>Description</strong></label>
-                        <textarea id="desc" name="desc" placeholder="Write something.."></textarea>
-                    </div>
+                <div class="col-sm-10">
+                    <label for="title" class="form-label"><strong>Title:</strong></label>
+                    <input type="text" class="form-control" name="title" placeholder="Your title.." >
+                </div>
+                <div class="col-sm-4">
+                    <label for="tv_network" class="form-label"><strong>Network:</strong></label>
+                    <input type="text" class="form-control" name="tv_network" placeholder="Your Network.." >
+                </div>
+                <div class="col-sm-4">
+                    <label for="release_date" class="form-label"><strong>Release Date :</strong></label>
+                    <input type="date" class="form-control" name="release_date" name="release_date"placeholder="Your release date.." >
+                </div>
+                <div class="col-sm-10">
+                    <label for="desc" class="form-label"><strong>Description :</strong></label>
+                    <textarea id="desc" class="form-control" name="desc" placeholder="Write something.."></textarea>
+                </div>
                 <br>
                 <div class="btn-group">
-                    <input type="submit" value="Validar Formulario" class="btn btn-success" >
+                    <input type="submit" value="Create" class="btn btn-success" >
                     
                 </div>
                 <div class="btn-group">
@@ -43,17 +71,12 @@
                 </div>
             </form>
         </div>
-    
+    </div>
         {% if messages %}
-        <ul class="messages">    
-            {% for message in messages %}    
-                <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>
-                    <p style="color: red;">{{ message }}</p>
-                    
-                </li>    
-            {% endfor %}
-        </ul>
-        {% endif %}
+        {% for message in messages %}
+        <script> toastr["{{message.tags}}"]("{{message}}");</script>
+        {% endfor %}
+    {% endif %}
     </div>
 </body>
 </html>
